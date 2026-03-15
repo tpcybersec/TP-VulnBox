@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 
 def download_and_extract_zip(VulnBox_NAME, VulnBoxDir):
-	url = "https://github.com/truocphan/"+("TP-VulnBox" if VulnBox_NAME == "WP-XDEBUG" else "VulnBox")+"/releases/download/"+VulnBox_NAME+"/"+VulnBox_NAME+".zip"
+	url = "https://github.com/TPCyberSec/"+("TP-VulnBox" if VulnBox_NAME == "WP-XDEBUG" else "VulnBox")+"/releases/download/"+VulnBox_NAME+"/"+VulnBox_NAME+".zip"
 
 	response = requests.get(url, stream=True)
 	total_size = int(response.headers.get("content-length", 0))
@@ -29,12 +29,12 @@ def download_and_extract_zip(VulnBox_NAME, VulnBoxDir):
 def List_All_VulnBox():
 	try:
 		print("\x1b[32m[*] List of all available VulnBoxes:\x1b[0m")
-		res = requests.get("https://api.github.com/repos/truocphan/VulnBox/releases").json()
+		res = requests.get("https://api.github.com/repos/TPCyberSec/VulnBox/releases").json()
 		for release in res:
 			try:
 				VulnBox_NAME = release["name"].split(":",1)[0]
 				VulnBox_TITLE = release["name"].split(":",1)[1]
-				print("- \x1b[1;35m" + VulnBox_NAME + "\x1b[1;0m:" + VulnBox_TITLE + (" ( \x1b[33mDownloaded\x1b[0;0m )" if VulnBox_NAME in os.listdir(os.path.join(os.path.expanduser("~"), "PyPI-VulnBox")) else ""))
+				print("- \x1b[1;35m" + VulnBox_NAME + "\x1b[1;0m:" + VulnBox_TITLE + (" ( \x1b[33mDownloaded\x1b[0;0m )" if VulnBox_NAME in os.listdir(os.path.join(os.path.expanduser("~"), "TPCS-ENV", "VulnBox")) else ""))
 			except Exception as e:
 				pass
 	except Exception as e:
@@ -111,7 +111,7 @@ def Current_Version():
 
 def main():
 	global VulnBoxDir
-	VulnBoxDir = os.path.join(os.path.expanduser("~"), "PyPI-VulnBox")
+	VulnBoxDir = os.path.join(os.path.expanduser("~"), "TPCS-ENV", "VulnBox")
 	if not os.path.isdir(VulnBoxDir): os.mkdir(VulnBoxDir)
 
 	print("\x1b[1;31m"+r"""
