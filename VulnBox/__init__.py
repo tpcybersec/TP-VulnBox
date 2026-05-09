@@ -104,15 +104,16 @@ def Delete_VulnBox(VulnBox_NAME):
 def Update(): os.system("{} -W ignore -m pip install TP-VulnBox --upgrade".format(sys.executable))
 
 def Current_Version():
-	p = subprocess.Popen("{} -W ignore -m pip show TP-VulnBox".format(sys.executable), stdout=subprocess.PIPE, shell=True)
+	p = subprocess.Popen("{} -W ignore -m pip index versions TP-VulnBox".format(sys.executable), stdout=subprocess.PIPE, shell=True)
 	(output, err) = p.communicate()
-	version = re.findall("Version: (\\d{4}\\.\\d{,2}\\.\\d{,2})", output.decode())[0]
-	print(" The current version of TP-VulnBox running is \x1b[0;32m{}\x1b[0;0m".format(version))
+	installed = re.findall("INSTALLED:[\\s\\t]+(\\d{4}\\.\\d{,2}\\.\\d{,2})", output.decode())[0]
+	latest = re.findall("LATEST:[\\s\\t]+(\\d{4}\\.\\d{,2}\\.\\d{,2})", output.decode())[0]
+	print(" The current version of TP-VulnBox running is \x1b[0;32m{}\x1b[0;0m ({})".format(installed, "\x1b[1;32mLATEST\x1b[0;0m" if installed==latest else "\x1b[0;31mOUTDATED\x1b[0;0m"))
 
 def main():
 	global VulnBoxDir
 	VulnBoxDir = os.path.join(os.path.expanduser("~"), "TPCS-ENV", "VulnBox")
-	if not os.path.isdir(VulnBoxDir): os.mkdir(VulnBoxDir)
+	if not os.path.isdir(VulnBoxDir): os.makedirs(VulnBoxDir)
 
 	print("\x1b[1;31m"+r"""
  ____   ____        __            ______
