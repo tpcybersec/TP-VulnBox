@@ -101,14 +101,13 @@ def Delete_VulnBox(VulnBox_NAME):
 		print("\x1b[1;31m[-] The VulnBox name \""+VulnBox_NAME+"\" does not exist.\x1b[1;0m")
 
 
-def Update(): os.system("{} -W ignore -m pip install TP-VulnBox --upgrade".format(sys.executable))
-
 def Current_Version():
 	p = subprocess.Popen("{} -W ignore -m pip index versions TP-VulnBox".format(sys.executable), stdout=subprocess.PIPE, shell=True)
 	(output, err) = p.communicate()
 	installed = re.findall("INSTALLED:[\\s\\t]+(\\d{4}\\.\\d{,2}\\.\\d{,2})", output.decode())[0]
 	latest = re.findall("LATEST:[\\s\\t]+(\\d{4}\\.\\d{,2}\\.\\d{,2})", output.decode())[0]
 	print(" The current version of TP-VulnBox running is \x1b[0;32m{}\x1b[0;0m ({})".format(installed, "\x1b[1;32mLATEST\x1b[0;0m" if installed==latest else "\x1b[0;31mOUTDATED\x1b[0;0m"))
+
 
 def main():
 	global VulnBoxDir
@@ -130,7 +129,6 @@ def main():
 	parser.add_argument("--start", metavar="VulnBox_NAME", type=str, help="Download and run the new VulnBox (e.g. CVE-2024-31211)")
 	parser.add_argument("--run", metavar="VulnBox_NAME", type=str, help="Run an existing VulnBox or run a new VulnBox if not already downloaded (e.g. CVE-2024-31211)")
 	parser.add_argument("--delete", metavar="VulnBox_NAME", type=str, help="Delete downloaded VulnBox (e.g. CVE-2024-31211)")
-	parser.add_argument("--update", action="store_true", help="Update TP-VulnBox to the latest version")
 	parser.add_argument("--version", action="store_true", help="Print the current version of TP-VulnBox")
 	args = parser.parse_args()
 
@@ -142,8 +140,6 @@ def main():
 		Run_VulnBox(args.run.replace("/", "").replace("\\", "").replace("..", ""))
 	elif args.delete:
 		Delete_VulnBox(args.delete.replace("/", "").replace("\\", "").replace("..", ""))
-	elif args.update:
-		Update()
 	elif args.version:
 		Current_Version()
 	else:

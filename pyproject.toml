@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tp-vulnbox"
-version = "2026.5.9"
+version = "2026.5.10"
 description = "VulnBox is a container that is intentionally designed with vulnerabilities to allow security professionals to practice and improve their offensive security skills, such as penetration testing and vulnerability assessment"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "MIT" }
@@ -24,6 +24,10 @@ dependencies = { file = [ "requirements.txt" ] }
 
 [project.urls]
 Homepage = "https://github.com/TPCyberSec/TP-VulnBox"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["VulnBox"]
 
 [project.scripts]
 TP-VulnBox = "VulnBox:main"
